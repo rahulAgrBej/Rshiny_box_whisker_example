@@ -18,6 +18,6 @@ server <- function(input, output) {
   output$boxWhiskerRender <- renderPlot({
     boxWhiskerCreate( # creates the box whisker plots
       dataInput(),
-      input$x_axis)
+      input$succession_stage_id)
   })
 }
