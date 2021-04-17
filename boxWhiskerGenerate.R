@@ -3,7 +3,6 @@ library(tidyverse)
 
 boxWhiskerCreate <- function(data_input, succession_stage_id) {
   
-  # data cleaning and counting all wind and animal dispersal
   print(data_input)
   
   processed_data <- data_input
@@ -14,7 +13,7 @@ boxWhiskerCreate <- function(data_input, succession_stage_id) {
     mutate(Growthform=replace(Growthform, Growthform=='CP', 'Tree')) %>%
     mutate(Growthform=replace(Growthform, Growthform=='UT', 'Tree')) %>%
     mutate(Growthform=replace(Growthform, Growthform=='UP', 'Tree')) %>%
-    mutate(Growthform=replace(Growthform, Growthform=='ET', 'Tree')) %>%
+    mutate(Growthform=replace(Growthform, Growthform=='ET', 'Tree'))
     
   
   # because of the huge difference in outlier values round 4000-6000
@@ -29,14 +28,8 @@ boxWhiskerCreate <- function(data_input, succession_stage_id) {
   
   print(processed_data)
   
-  #data_input <- data_input %>%
-  #  group_by(Plot, Treatment) %>%
-  #  count(Dispersalmode)
-  
-  #print(data_input)
-  #print(x_axis_input)
-  
-  processed_data <- processed_data%>%
+  # renaming the treatment groups to their actual names
+  processed_data <- processed_data %>%
     mutate(Treatment = factor(
       Treatment,
       levels=c('C', 'I', 'P', 'R'),
@@ -44,8 +37,7 @@ boxWhiskerCreate <- function(data_input, succession_stage_id) {
     ))
   
   p <- ggplot(processed_data, aes(x=Treatment, y=depositionRate)) + 
-    geom_boxplot()# +
-    #facet_grid(~Treatment)
+    geom_boxplot()
   
   return(p)
 }
