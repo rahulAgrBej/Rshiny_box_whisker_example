@@ -8,8 +8,13 @@ boxWhiskerCreate <- function(data_input, succession_stage_id) {
   
   processed_data <- data_input
   
+  # because of the huge difference in outlier values round 4000-6000
+  # check if these are valid
+  processed_data <- processed_data %>%
+    filter(depositionRate < 10)
+  
   if (succession_stage_id != 'All') {
-    processed_data <- data_input %>%
+    processed_data <- processed_data %>%
       filter(str_detect(SuccessionalStage, succession_stage_id))
   }
   
@@ -21,11 +26,17 @@ boxWhiskerCreate <- function(data_input, succession_stage_id) {
   
   #print(data_input)
   #print(x_axis_input)
-    
   
-  p <- ggplot(data_input, aes(x=Dispersalmode, y=n)) + 
-    geom_boxplot() +
-    facet_grid(~Treatment)
+  processed_data <- processed_data%>%
+    mutate(Treatment = factor(
+      Treatment,
+      levels=c('C', 'I', 'P', 'R'),
+      labels=c('Nat_reg', 'App_nuc', 'Plantation', 'Ref_for')
+    ))
+  
+  p <- ggplot(processed_data, aes(x=Treatment, y=depositionRate)) + 
+    geom_boxplot()# +
+    #facet_grid(~Treatment)
   
   return(p)
 }
