@@ -10,7 +10,11 @@ boxWhiskerCreate <- function(data_input, succession_stage_id) {
   
   # rename the tree types to just Tree
   processed_data <- processed_data %>%
-    mutate(Growthform=replace(Growthform, Growthform=='CT', 'Tree'))
+    mutate(Growthform=replace(Growthform, Growthform=='CT', 'Tree')) %>%
+    mutate(Growthform=replace(Growthform, Growthform=='CP', 'Tree')) %>%
+    mutate(Growthform=replace(Growthform, Growthform=='UT', 'Tree')) %>%
+    mutate(Growthform=replace(Growthform, Growthform=='UP', 'Tree')) %>%
+    mutate(Growthform=replace(Growthform, Growthform=='ET', 'Tree')) %>%
     
   
   # because of the huge difference in outlier values round 4000-6000
